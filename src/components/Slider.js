@@ -1,17 +1,16 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextEllipsis from 'react-text-ellipsis';
 import { useSwipeable } from 'react-swipeable';
+// import { useTransition, animated } from 'react-spring';
 
-import SideMenu from "./SlideMenu";
+import Menu from "./Menu";
 
-import { getOriginalImageURL } from "../utils";
 import { getGenre } from "../api/movie.api";
 
 import starSvg from "../star.svg";
 
 const Slider = (props) => {
     const [list, setList] = useState(props.list);
-    const [slideItem, setSlideItem] = useState({});
     const [index, setIndex] = useState(0);
     const [genreList, setGenreList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -22,6 +21,12 @@ const Slider = (props) => {
         preventDefaultTouchmoveEvent: true,
         trackMouse: true
     });
+
+    // const transitions = useTransition(index, item => item.key, {
+    //     from: { opacity: 0, transform: 'translateX(100%,0)' },
+    //     enter: { opacity: 1, transform: 'translateX(0%,0)' },
+    //     leave: { opacity: 0, transform: 'translateX(-50%,0)' },
+    // });
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -43,18 +48,16 @@ const Slider = (props) => {
     }, []);
 
     useEffect(() => {
-        setLoading(true);
         const { list } = props;
+        const item = list[index];
+        const { setBackground } = props;
+
+        setLoading(true);
         setList(list);
-        setSlideItem(list[index]);
+        setBackground(item.backdrop_path);
         setLoading(false);
     }, [props, index]);
 
-    useEffect(() => {
-        setLoading(true);
-        setSlideItem(list[index]);
-        setLoading(false);
-    }, [list, index])
 
     const mappingGenres = (genreIds) => {
         return genreList.filter((item) => {
@@ -104,27 +107,25 @@ const Slider = (props) => {
         </div>
     }
 
-    if (loading) {
-        return <h1>Loading...</h1>;
-    } else {
-        const { backdrop_path, title, overview, genre_ids, vote_average, release_date } = slideItem;
-        return (
-            <Fragment>
-                <div className="slider___content" {...handlers}>
-                    <Overview
-                        title={title}
-                        overview={overview}
-                        voteAverage={vote_average}
-                        releaseDate={release_date}
-                        genres={mappingGenres(genre_ids)}
-                        renderPagination={renderPagination}
-                    />
-                </div>
-                <div className="slider___overlay"></div>
-                <div className="slider___image" style={{ backgroundImage: `url(${getOriginalImageURL(backdrop_path)})` }}></div>
-            </Fragment>
-        )
-    }
+    if (loading) return <h1>Loading...</h1>;
+
+    const { title, overview, genre_ids, vote_average, release_date } = list[index];
+
+    return (
+        <Fragment>
+            <div className="slider___content" {...handlers}>
+                {<Overview
+                    style={props}
+                    title={title}
+                    overview={overview}
+                    voteAverage={vote_average}
+                    releaseDate={release_date}
+                    genres={mappingGenres(genre_ids)}
+                />}
+                {renderPagination()}
+            </div>
+        </Fragment>
+    )
 }
 
 const Overview = ({ title,
@@ -132,7 +133,7 @@ const Overview = ({ title,
     genres,
     releaseDate,
     voteAverage,
-    renderPagination
+    style
 }) => {
     const renderGenres = () => {
         return <div className="genre___wrap">
@@ -144,10 +145,10 @@ const Overview = ({ title,
     }
 
     return (
-        <div className="overview___wrap">
+        <div className="overview___wrap" style={style}>
             <div className="row">
                 <div className="col-2">
-                    <SideMenu />
+                    <Menu />
                 </div>
                 <div className="col-10">
                     <div className="row">
@@ -172,7 +173,6 @@ const Overview = ({ title,
                             </div>
                         </div>
                     </div>
-                    {renderPagination()}
                 </div>
             </div>
         </div>
