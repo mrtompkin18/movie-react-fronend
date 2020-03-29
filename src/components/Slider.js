@@ -1,10 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextEllipsis from 'react-text-ellipsis';
-import { useSpring, animated } from "react-spring";
 import { useSwipeable } from 'react-swipeable';
+
+import SideMenu from "./SlideMenu";
 
 import { getOriginalImageURL } from "../utils";
 import { getGenre } from "../api/movie.api";
+
+import starSvg from "../star.svg";
 
 const Slider = (props) => {
     const [list, setList] = useState(props.list);
@@ -21,14 +24,19 @@ const Slider = (props) => {
     });
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            const nextIndex = getNextIndex(index);
+            setIndex(nextIndex);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, [index]);
+
+    useEffect(() => {
         const fetchDate = async () => {
             setLoading(true);
-
             const { data } = await getGenre();
             const { genres } = data;
-
             setGenreList(genres);
-
             setLoading(false);
         }
         fetchDate();
@@ -36,20 +44,15 @@ const Slider = (props) => {
 
     useEffect(() => {
         setLoading(true);
-
         const { list } = props;
-
         setList(list);
         setSlideItem(list[index]);
-
         setLoading(false);
     }, [props, index]);
 
     useEffect(() => {
         setLoading(true);
-
         setSlideItem(list[index]);
-
         setLoading(false);
     }, [list, index])
 
@@ -60,51 +63,62 @@ const Slider = (props) => {
     }
 
     const onClickPaginateButton = (index) => {
-        setIndex(() => {
-            setLoading(true);
-            return index;
-        });
-        setLoading(false);
+        setIndex(index);
+    }
+
+    const getNextIndex = (index) => {
+        const size = list.length;
+        var nextIndex = index + 1
+        if (nextIndex === size) nextIndex = 0;
+        return nextIndex;
+    }
+
+    const getPrevIndex = (index) => {
+        const size = list.length;
+        var prevIndex = index - 1;
+        if (prevIndex < 0) prevIndex = size - 1;
+        return prevIndex;
     }
 
     const onSlideChange = (direction) => {
-        const size = list.length;
-        setLoading(true);
         switch (direction) {
             case "Left":
-                var nextIndex = index + 1
-                if (nextIndex === size) nextIndex = 0;
+                const nextIndex = getNextIndex(index);
                 setIndex(nextIndex); break;
             case "Right":
-                var prevIndex = index - 1;
-                if (prevIndex < 0) prevIndex = size - 1;
+                const prevIndex = getPrevIndex(index);
                 setIndex(prevIndex); break;
             default: break;
         }
-        setLoading(false);
+    }
+
+    const renderPagination = () => {
+        return <div className="slider___pagination___wrap">
+            {list.map((val, i) => {
+                return <div
+                    key={i}
+                    className={`slider___pagination ${index === i ? 'active___pagination' : ''}`}
+                    onClick={() => onClickPaginateButton(i)}>
+                </div>
+            })}
+        </div>
     }
 
     if (loading) {
         return <h1>Loading...</h1>;
     } else {
-        const { backdrop_path, title, overview, genre_ids } = slideItem;
+        const { backdrop_path, title, overview, genre_ids, vote_average, release_date } = slideItem;
         return (
             <Fragment>
                 <div className="slider___content" {...handlers}>
                     <Overview
                         title={title}
                         overview={overview}
+                        voteAverage={vote_average}
+                        releaseDate={release_date}
                         genres={mappingGenres(genre_ids)}
+                        renderPagination={renderPagination}
                     />
-                    <div className="slider___pagination___wrap">
-                        {list.map((val, i) => {
-                            return <div
-                                key={i}
-                                className={`slider___pagination ${index === i ? 'active___pagination' : ''}`}
-                                onClick={() => onClickPaginateButton(i)}>
-                            </div>
-                        })}
-                    </div>
                 </div>
                 <div className="slider___overlay"></div>
                 <div className="slider___image" style={{ backgroundImage: `url(${getOriginalImageURL(backdrop_path)})` }}></div>
@@ -113,15 +127,13 @@ const Slider = (props) => {
     }
 }
 
-const Overview = (props) => {
-    const fadeUp = useSpring({
-        config: { duration: 500, mass: 100 },
-        from: { opacity: 0, bottom: -100 },
-        to: { opacity: 1, bottom: 0 }
-    });
-
-    const { title, overview, genres } = props;
-
+const Overview = ({ title,
+    overview,
+    genres,
+    releaseDate,
+    voteAverage,
+    renderPagination
+}) => {
     const renderGenres = () => {
         return <div className="genre___wrap">
             {genres.map(item => {
@@ -132,25 +144,38 @@ const Overview = (props) => {
     }
 
     return (
-        <animated.div className="overview___wrap" style={fadeUp}>
+        <div className="overview___wrap">
             <div className="row">
-                <div className="col">
-                    <h1 className="title">{title}</h1>
-                    <TextEllipsis
-                        lines={3}
-                        tag={'span'}
-                        ellipsisChars={'...'}
-                        tagClass={'overview'}
-                    >{overview}
-                    </TextEllipsis>
-                    {renderGenres()}
-                    <div className="button___wrap">
-                        <div className="watch__btn">Watch</div>
-                        <div className="keep__btn">Add to List</div>
+                <div className="col-2">
+                    <SideMenu />
+                </div>
+                <div className="col-10">
+                    <div className="row">
+                        <div className="col">
+                            <div className="rating">
+                                <img alt="star" src={starSvg} />
+                                <span>{voteAverage}</span>
+                                <span className="release">({releaseDate})</span>
+                            </div>
+                            <h1 className="title">{title}</h1>
+                            <TextEllipsis
+                                lines={3}
+                                tag={'span'}
+                                ellipsisChars={'...'}
+                                tagClass={'overview'}
+                            >{overview}
+                            </TextEllipsis>
+                            {renderGenres()}
+                            <div className="button___wrap">
+                                <div className="watch__btn">Watch</div>
+                                <div className="keep__btn">Add to List</div>
+                            </div>
+                        </div>
                     </div>
+                    {renderPagination()}
                 </div>
             </div>
-        </animated.div>
+        </div>
     )
 }
 

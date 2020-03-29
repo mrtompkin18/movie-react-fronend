@@ -16,7 +16,7 @@ const Landing = () => {
     const { results } = upcomingList;
     return (
         <Fragment>
-            <Slider list={results.slice(0, 5)} />
+            <Slider list={results.slice(0, 8)} />
         </Fragment>
     )
 }
