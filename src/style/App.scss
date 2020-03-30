@@ -6,6 +6,35 @@ body {
   color: #fff;
   font-family: "Poppins";
 }
+.popular___wrap {
+  width: 45%;
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+  @media (max-width: 960px) {
+    display: none;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    z-index: 1;
+    position: relative;
+    margin: 20px 0;
+  }
+  .popular___item {
+    // width: 150px !important;
+    height: 200px !important;
+    background-size: cover !important;
+  }
+  .title {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 300;
+    opacity: 0.5;
+  }
+}
+
 .menu___wrap {
   transform: rotate(-90deg) scaleY(1);
   position: fixed;
@@ -193,5 +222,5 @@ body {
   height: 100%;
   z-index: -1;
   background-size: cover;
-  transition: all 0.6s ease;
+  transition: all 0.7s ease;
 }

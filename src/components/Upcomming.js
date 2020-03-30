@@ -5,8 +5,6 @@ import posed from "react-pose";
 
 import Menu from "./Menu";
 
-import { getGenre } from "../api/movie.api";
-
 import starSvg from "../star.svg";
 
 const Box = posed.div({

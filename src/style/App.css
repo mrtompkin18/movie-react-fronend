@@ -6,6 +6,39 @@ body {
   font-family: "Poppins";
 }
 
+.popular___wrap {
+  width: 45%;
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+}
+
+@media (max-width: 960px) {
+  .popular___wrap {
+    display: none;
+  }
+}
+
+.popular___wrap h1 {
+  font-size: 24px;
+  font-weight: 700;
+  z-index: 1;
+  position: relative;
+  margin: 20px 0;
+}
+
+.popular___wrap .popular___item {
+  height: 200px !important;
+  background-size: cover !important;
+}
+
+.popular___wrap .title {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  opacity: 0.5;
+}
+
 .menu___wrap {
   -webkit-transform: rotate(-90deg) scaleY(1);
           transform: rotate(-90deg) scaleY(1);
@@ -247,7 +280,7 @@ body {
   height: 100%;
   z-index: -1;
   background-size: cover;
-  -webkit-transition: all 0.6s ease;
-  transition: all 0.6s ease;
+  -webkit-transition: all 0.7s ease;
+  transition: all 0.7s ease;
 }
 /*# sourceMappingURL=App.css.map */
