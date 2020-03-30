@@ -5,6 +5,15 @@ body {
   font-family: "Poppins";
 }
 
+a {
+  color: #fff;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
 .popular___wrap {
   width: 45%;
   position: absolute;
@@ -37,7 +46,7 @@ body {
 }
 
 .popular___wrap .popular___item:hover {
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 .popular___wrap .title {

@@ -1,16 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextEllipsis from 'react-text-ellipsis';
 import { useSwipeable } from 'react-swipeable';
-import posed from "react-pose";
 
 import Menu from "./Menu";
 
 import starSvg from "../star.svg";
-
-const Box = posed.div({
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-});
 
 const Upcomming = (props) => {
     const [list, setList] = useState(props.list);
@@ -92,12 +86,10 @@ const Upcomming = (props) => {
         </div>
     }
 
-    console.log("REDNER : SLIDE");
-
     const { title, overview, genre_ids, vote_average, release_date } = list[index];
     return (
         <Fragment>
-            <Box className="slider___content fadeIn animated" {...handlers}>
+            <div className="slider___content fadeIn animated" {...handlers}>
                 {<Overview
                     style={props}
                     title={title}
@@ -107,15 +99,13 @@ const Upcomming = (props) => {
                     genres={mappingGenres(genre_ids)}
                 />}
                 {renderPagination()}
-            </Box>
+            </div>
         </Fragment>
     )
 }
 
 const Overview = (props) => {
     const { title, overview, genres, releaseDate, voteAverage, style } = props;
-
-    console.log("REDNER : OVERVIEW");
 
     const renderGenres = () => {
         return <div className="genre___wrap">

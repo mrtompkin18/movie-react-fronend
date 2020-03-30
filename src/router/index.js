@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Movie from "../containers/Movie";
+import Detail from "../containers/Detail";
 import Landing from "../containers/Landing";
 
 const Index = () => {
@@ -11,7 +11,7 @@ const Index = () => {
                 <Landing />
             </Route>
             <Route path="/movie/:id">
-                <Movie />
+                <Detail />
             </Route>
         </Switch>
     )

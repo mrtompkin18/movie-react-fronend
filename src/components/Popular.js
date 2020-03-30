@@ -3,6 +3,7 @@ import Swiper from 'react-id-swiper';
 import TextEllipsis from 'react-text-ellipsis';
 
 import { getOriginalImageURL } from '../utils';
+import { Link } from 'react-router-dom';
 
 const Popular = ({ list }) => {
     const params = {
@@ -37,7 +38,7 @@ const Popular = ({ list }) => {
             const { poster_path, title, id } = item;
             const path = getOriginalImageURL(poster_path);
             return (
-                <div key={id}>
+                <Link key={id} to={`/movie/${id}`}>
                     <div className="popular___item" style={{ background: `url(${path})` }}></div>
                     <TextEllipsis
                         lines={2}
@@ -47,7 +48,7 @@ const Popular = ({ list }) => {
                     >
                         {title}
                     </TextEllipsis>
-                </div>
+                </Link>
             )
         })
     }
