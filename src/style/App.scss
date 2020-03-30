@@ -23,12 +23,10 @@ body {
   }
   .popular___item {
     cursor: pointer;
-    height: 200px;
+    height: 220px;
+    border-radius: 10px;
     background-size: cover !important;
-    transition: all 0.3s ease;
-    &:hover {
-      margin-top: -20px;
-    }
+    transition: all 0.5s ease;
   }
   .title {
     margin-top: 10px;
