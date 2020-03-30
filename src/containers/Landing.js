@@ -1,32 +1,46 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import Slider from "../components/Slider";
+import Upcomming from "../components/Upcomming";
 
-import { getUpcoming } from "../api/movie.api";
+import { getUpcoming, getGenre } from "../api/movie.api";
 import { getOriginalImageURL } from "../utils";
 
 const Landing = () => {
-    const [upcomingList, setUpcomingList] = useState([]);
+    const [list, setList] = useState([]);
+    const [genres, setGenres] = useState([]);
     const [backgrond, setBackground] = useState('');
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
-            const { data } = await getUpcoming();
-            setUpcomingList(data);
+            const [upcoming, genres] = await Promise.all([
+                getUpcoming(),
+                getGenre()
+            ]);
+
+            setList(upcoming.data.results);
+            setGenres(genres.data.genres);
+
+            setLoading(false);
         })()
     }, []);
 
-    if (upcomingList.length < 1) return <></>
-    const { results } = upcomingList;
-    return (
-        <Fragment>
-            <Slider
-                list={results.slice(0, 14)}
-                setBackground={setBackground}
-            />
-            <div className="slider___overlay"></div>
-            <div className="slider___image" style={{ backgroundImage: `url(${getOriginalImageURL(backgrond)})` }}></div>
-        </Fragment>
-    )
+    if (isLoading) {
+        return <h1>Loading...</h1>
+    } else {
+        return (
+            <Fragment>
+                <Upcomming
+                    list={list.slice(0, 14)}
+                    setBackground={setBackground}
+                    genres={genres}
+                />
+                <div className="slider___overlay"></div>
+                <div className="slider___image" style={{ backgroundImage: `url(${getOriginalImageURL(backgrond)})` }}></div>
+            </Fragment>
+        )
+    }
+
+
 }
 
 export default Landing

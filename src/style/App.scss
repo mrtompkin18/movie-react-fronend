@@ -12,6 +12,10 @@ body {
   top: 50%;
   left: -210px;
   font-family: "Montserrat";
+  transition: all 0.3s ease;
+  @media (max-width: 422px) {
+    display: none;
+  }
   .menu___item {
     cursor: pointer;
     font-size: 16px;
@@ -30,6 +34,23 @@ body {
   position: absolute;
   width: 50%;
   bottom: 20px;
+  @media (max-width: 960px) {
+    width: 90%;
+  }
+  .overview___left___section {
+    display: inline-block;
+    @media (max-width: 960px) {
+      display: none;
+    }
+  }
+  .overview___right___section {
+    display: inline-block;
+    margin-left: 150px;
+    @media (max-width: 960px) {
+      margin-left: 0px;
+    }
+  }
+
   .rating {
     font-size: 20px;
     font-weight: 700;
@@ -47,23 +68,30 @@ body {
   .title {
     font-size: 75px;
     font-weight: 700;
+    @media (max-width: 720px) {
+      font-size: 60px;
+    }
+    @media (max-width: 422px) {
+      font-size: 40px;
+    }
   }
   .overview {
     font-size: 16px;
     font-weight: 300;
+    opacity: 0.7;
   }
   .genre___wrap {
     margin: 20px 0;
     .genre___tag {
       cursor: pointer;
-      display: inline;
+      display: inline-block;
       font-size: 12px;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.8);
       border-radius: 5px;
       border: 1px solid rgba(255, 255, 255, 0.38);
       padding: 4px 8px;
-      margin-left: 8px;
+      margin: 4px;
       transition: all 0.3s ease-in-out;
       &:hover {
         background: rgba(255, 255, 255, 0.3);
@@ -97,31 +125,46 @@ body {
     padding: 10px 15px;
     line-height: 1.8;
     background-color: #fff;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
+
+    @media (max-width: 422px) {
+      width: 100%;
+    }
   }
 
   .keep__btn {
     margin-left: 15px;
+    @media (max-width: 422px) {
+      margin-left: 0px;
+      margin-top: 15px;
+    }
   }
 
   .watch__btn {
     color: #fff;
     background-image: linear-gradient(90deg, #ff5151 0%, #e5243a 80%);
     box-shadow: 0px 4px 25px rgba(255, 0, 0, 0.5);
+    transition: all 0.4s ease;
+    &:hover {
+      box-shadow: 0px 10px 40px rgba(255, 0, 0, 0.8);
+    }
   }
 }
 
 .slider___pagination___wrap {
-  position: absolute;
-  bottom: 0;
+  width: 100%;
+  text-align: center;
   .slider___pagination {
     cursor: pointer;
-    width: 65px;
+    width: 45px;
     height: 3.5px;
     background: #fff;
     display: inline-block;
-    margin: 0 3px;
+    margin: 10px 3px;
     opacity: 0.3;
+    @media (max-width: 422px) {
+      width: 18px;
+    }
 
     &.active___pagination {
       opacity: 1;
@@ -150,5 +193,5 @@ body {
   height: 100%;
   z-index: -1;
   background-size: cover;
-  transition: all 0.65s ease;
+  transition: all 0.6s ease;
 }
