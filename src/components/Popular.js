@@ -6,6 +6,7 @@ import { getOriginalImageURL } from '../utils';
 
 const Popular = ({ list }) => {
     const params = {
+        loop: true,
         slidesPerView: 5,
         spaceBetween: 20,
         pagination: {

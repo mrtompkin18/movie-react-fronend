@@ -3,7 +3,7 @@ import Upcomming from "../components/Upcomming";
 import Popular from "../components/Popular";
 
 import { getUpcoming, getGenre, getPopular } from "../api/movie.api";
-import { getOriginalImageURL } from "../utils";
+import { getOriginalImageURL, getImageURL } from "../utils";
 
 const Landing = () => {
     const [list, setList] = useState([]);
@@ -40,7 +40,7 @@ const Landing = () => {
                 />
                 <Popular list={populars.slice(0, 10)} />
                 <div className="slider___overlay"></div>
-                <div className="slider___image" style={{ backgroundImage: `url(${getOriginalImageURL(backgrond)})` }}></div>
+                <div className="slider___image" style={{ backgroundImage: `url(${getImageURL(backgrond)})` }}></div>
             </Fragment>
         )
     }
