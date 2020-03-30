@@ -31,8 +31,13 @@ body {
   height: 220px;
   border-radius: 10px;
   background-size: cover !important;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  background-position: center !important;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.popular___wrap .popular___item:hover {
+  opacity: 0.4;
 }
 
 .popular___wrap .title {
@@ -66,6 +71,12 @@ body {
   display: inline;
   margin: 0 40px;
   opacity: 0.5;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.menu___wrap .menu___item:hover {
+  opacity: 1;
 }
 
 .menu___wrap .menu___item.active {
