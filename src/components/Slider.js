@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextEllipsis from 'react-text-ellipsis';
 import { useSwipeable } from 'react-swipeable';
-// import { useTransition, animated } from 'react-spring';
 
 import Menu from "./Menu";
 
@@ -21,12 +20,6 @@ const Slider = (props) => {
         preventDefaultTouchmoveEvent: true,
         trackMouse: true
     });
-
-    // const transitions = useTransition(index, item => item.key, {
-    //     from: { opacity: 0, transform: 'translateX(100%,0)' },
-    //     enter: { opacity: 1, transform: 'translateX(0%,0)' },
-    //     leave: { opacity: 0, transform: 'translateX(-50%,0)' },
-    // });
 
     useEffect(() => {
         const interval = setInterval(() => {
